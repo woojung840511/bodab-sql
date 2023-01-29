@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/sql/UX 서베이 대응 - 암,치아 진행상황 확인.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/sql/사용하는 product, plan category.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/sql/2023-01-29 UX 서베이 대응 - 암,치아 진행상황 확인.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/sql/2023-01-29 사용하는 product, plan category.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/sql/2023-01-29 암,치아 가입설계 필터범위 유효성 검사.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/sql/2023-01-29 암,치아 상품마스터 특약매핑 유효성 검사.sql" dialect="MySQL" />
   </component>
 </project>
