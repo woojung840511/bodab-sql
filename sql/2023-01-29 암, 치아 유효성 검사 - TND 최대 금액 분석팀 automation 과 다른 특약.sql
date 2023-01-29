@@ -58,10 +58,10 @@ from agr_product_main m
                     , prms.product_master_id
                     , prms.product_name
 #      , prms.max_assure_money
-                    , (cast(prms.max_assure_money as decimal(10, 2)) * 10000) as max_assure_money
+                    , (cast(prms.max_assure_money as decimal(10,2)) * 10000) as max_assure_money
                     , prms.nuzal_tnd_codes
-                    , substr(prms.nuzal_tnd_codes, 14, 1)                     as product_version
-                    , substr(prms.nuzal_tnd_codes, 16, 6)                     as tnd_code
+                    , substr(prms.nuzal_tnd_codes, 14, 1)               as product_version
+                    , substr(prms.nuzal_tnd_codes, 16, 6)               as tnd_code
                from product_master prms
                         join product p on prms.product_id = p.product_id
                         join plan_master plms on p.product_id = plms.product_id
@@ -138,10 +138,10 @@ from agr_product_main m
                                                         end as worker
                                              from company c) w on w.short_name = c.short_name
                               where cm_product_gubun.code_value = '주계약'
-                                and cm_product_category.code_value in ('생활비 지급형', '첨단암치료비형', '암보험', '치아보험')
-                                and cm_plan_category.code_value in ('생활비 지급형', '첨단암치료비형', '암보험', '치아보험')
+                                and cm_product_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
+                                and cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
                                 and (
-                                          cm_plan_category.code_value in ('생활비 지급형', '첨단암치료비형')
+                                          cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형')
                                       or (
                                                       cm_plan_category.code_value = '암보험'
                                                   and (
@@ -210,8 +210,7 @@ from agr_product_main m
                where prms.nuzal_tnd_codes != ''
                  and prms.nuzal_tnd_codes is not null
                group by prms.product_master_id) pltf
-              on pltf.product_id = m.product_code and pltf.product_version = m.product_version and
-                 pltf.tnd_code = t.treaty_code
+              on pltf.product_id = m.product_code and pltf.product_version = m.product_version and pltf.tnd_code = t.treaty_code
 where pltf.max_assure_money != t.treaty_amount;
 
-SELECT CAST('5.123456' AS DECIMAL(10, 2));
+SELECT CAST('5.123456' AS DECIMAL(10,2));
