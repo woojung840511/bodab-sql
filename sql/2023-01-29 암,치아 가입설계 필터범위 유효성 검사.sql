@@ -1,17 +1,17 @@
 use fincette;
 
 # 암, 치아보험 현재(2023-01-29) 기준 필터 유효범위 이탈한 가설 조회
-
+# 치아보험 크라운은 어떻게 할 것인지 여쭤봐야함
 select w.worker
      , p.product_id                   as product_id
      , p.product_name                 as product_name
      , plmp.plan_id                   as plan_id
      , cm_product_category.code_value as product_category -- 상품 카테고리
      , cm_plan_category.code_value    as plan_category    -- 플랜 카테고리
-#      , p.status                         as status               -- 상품 상태
-#      , plms.use_yn                      as plan_use_yn          -- 플랜 사용
-#      , plms.display_yn                  as display_yn           -- 플랜 사용자화면표시
-#      , plms.main_yn                     as main_yn              -- 대표가설
+     , p.status                         as status               -- 상품 상태
+     , plms.use_yn                      as plan_use_yn          -- 플랜 사용
+     , plms.display_yn                  as display_yn           -- 플랜 사용자화면표시
+     , plms.main_yn                     as main_yn              -- 대표가설
      , plms.min_ins_age               as min_ins_age      -- 가입최소나이(플랜)
      , plms.max_ins_age               as max_ins_age      -- 가입최대나이(플랜)
      , plms.plan_sub_name             as plan_sub_name    -- 원수사플랜명
@@ -66,7 +66,7 @@ from plan_mapper plmp
                           end as worker
                from company c) w on w.short_name = c.short_name
 where cm_product_gubun.code_value = '주계약'
-  and cm_product_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
+#   and cm_product_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
   and cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
   and not (
       cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형')

@@ -2,9 +2,11 @@ use fincette;
 
 
 select pltf.worker,
+       pltf.product_category,
+       pltf.plan_category,
        m.product_code, -- 분석팀 상품별 최대 버전의 특약 목록
-       m.product_version,
-       m.product_name,
+#        m.product_version,
+#        m.product_name,
 #        c.ins_period                            as '보험기간',
 #        case
 #            when c.ins_type = 'Y' then '년'
@@ -35,11 +37,12 @@ select pltf.worker,
 #            when apr.return_type = 'MRT' then '만기환급형'
 #            when apr.return_type = 'PRT' then '일부환급형'
 #            end                                 as '환급형태',
+
        t.treaty_code,
        t.treaty_name                           as '특약명',
-       FORMAT(t.treaty_amount, '##,##0')       as '가입금액',
-       FORMAT(pltf.max_assure_money, '##,##0') as '플렛폼팀 가입금액',
-       pltf.product_master_id
+       FORMAT(t.treaty_amount, '##,##0')       as '분석팀 가입금액',
+       pltf.product_master_id,
+       FORMAT(pltf.max_assure_money, '##,##0') as '플렛폼팀 최대 가입금액'
 
 
 from agr_product_main m
@@ -54,14 +57,16 @@ from agr_product_main m
          join agr_product_return apr on b.seq = apr.agr_product_basis_seq
 
          join (select validated_plan.worker -- 암, 치아 유효 필터범위에 드는 가입설계에 속한 상품마스터 중 특약매핑이 완료된 목록
+                    , validated_plan.product_category
+                    , validated_plan.plan_category
                     , prms.product_id
                     , prms.product_master_id
                     , prms.product_name
 #      , prms.max_assure_money
-                    , (cast(prms.max_assure_money as decimal(10,2)) * 10000) as max_assure_money
+                    , (cast(prms.max_assure_money as decimal(10, 2)) * 10000) as max_assure_money
                     , prms.nuzal_tnd_codes
-                    , substr(prms.nuzal_tnd_codes, 14, 1)               as product_version
-                    , substr(prms.nuzal_tnd_codes, 16, 6)               as tnd_code
+                    , substr(prms.nuzal_tnd_codes, 14, 1)                     as product_version
+                    , substr(prms.nuzal_tnd_codes, 16, 6)                     as tnd_code
                from product_master prms
                         join product p on prms.product_id = p.product_id
                         join plan_master plms on p.product_id = plms.product_id
@@ -138,7 +143,7 @@ from agr_product_main m
                                                         end as worker
                                              from company c) w on w.short_name = c.short_name
                               where cm_product_gubun.code_value = '주계약'
-                                and cm_product_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
+#                                 and cm_product_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
                                 and cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
                                 and (
                                           cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형')
@@ -210,7 +215,8 @@ from agr_product_main m
                where prms.nuzal_tnd_codes != ''
                  and prms.nuzal_tnd_codes is not null
                group by prms.product_master_id) pltf
-              on pltf.product_id = m.product_code and pltf.product_version = m.product_version and pltf.tnd_code = t.treaty_code
+              on pltf.product_id = m.product_code and pltf.product_version = m.product_version and
+                 pltf.tnd_code = t.treaty_code
 where pltf.max_assure_money != t.treaty_amount;
 
-SELECT CAST('5.123456' AS DECIMAL(10,2));
+SELECT CAST('5.123456' AS DECIMAL(10, 2));

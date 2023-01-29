@@ -78,7 +78,7 @@ from product_master prms
                                          end as worker
                               from company c) w on w.short_name = c.short_name
                where cm_product_gubun.code_value = '주계약'
-                 and cm_product_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
+#                  and cm_product_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
                  and cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형', '암보험', '치아보험')
                  and (
                            cm_plan_category.code_value in ('생활비 지급형', '최신항암 치료비형')
